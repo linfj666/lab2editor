@@ -1,0 +1,67 @@
+PASS | T00 找到编辑器控件 plainTextEdit
+PASS | T01 启动时文档未修改
+PASS | T01 标题包含 [*] 占位符
+PASS | T01 启动时编辑区为空
+PASS | T02 输入后 windowModified = true
+PASS | T02 撤销栈可用
+PASS | T03 撤销后内容变短
+PASS | T03 重做后内容恢复
+PASS | T04 writeFile 返回 true
+PASS | T04 文件已写入磁盘
+PASS | T04 写成功后清除修改标记
+PASS | T04 可读回文件
+PASS | T04 Windows 下写成 CRLF
+PASS | T04 不写 BOM
+PASS | T04 内容往返一致（UTF-8 中文不乱码）
+PASS | T05 标题显示文件名
+PASS | T05 saveFile 返回 true（已命名不弹框）
+PASS | T05 保存后清除修改标记
+PASS | T06 readFile 成功
+PASS | T06 读回内容正确
+PASS | T06 中文内容正确
+PASS | T06 读取后统一为 LF
+INFO | 提示框 打开失败 -> Ok：文件不存在： C:\Users\hwlfj\Documents\deepseek-harness\default-workspace\lab2editor_tests\build\debug\selftest_tmp\missing.txt
+PASS | T07 打开不存在文件返回 false
+PASS | T07 失败时不修改输出内容
+INFO | 提示框 打开失败 -> Ok：该文件疑似二进制文件，无法作为文本打开。
+PASS | T08 二进制文件被拒绝
+PASS | T08 拒绝时不产生内容
+INFO | 文件对话框 -> 取消
+PASS | T09 取消打开不崩溃
+PASS | T09 取消后编辑区内容不变
+PASS | T09 取消后标题不变
+PASS | T10 findNext 调用成功
+PASS | T10 选中命中文本
+PASS | T10 到文末后回绕到文首
+INFO | 提示框 查找 -> Ok：未找到“zzzz-not-exist”。
+PASS | T11 查找不存在串不崩溃
+PASS | T11 未找到时光标不移动
+INFO | 提示框 替换 -> Ok：共替换 3 处。
+PASS | T12 全部替换调用返回（未死循环）
+PASS | T12 三个 a 被替换为空
+PASS | T12 一次撤销即可整体回退
+INFO | 提示框 替换 -> Ok：共替换 3 处。
+PASS | T13 替换串包含查找串不卡死
+PASS | T13 每个原位置只替换一次（3 处 -> 6 个字符）
+PASS | T14 找到查找对话框
+PASS | T14 找到查找框控件
+PASS | T14 点击“查找下一个”后选中 alpha（并回绕）
+PASS | T14 在查找框内按回车也能触发查找
+PASS | T15 找到替换对话框
+PASS | T15 找到替换框控件
+INFO | 提示框 替换 -> Ok：共替换 3 处。
+PASS | T15 通过对话框完成全部替换
+INFO | 提示框 提示 -> 取消(&C)：“a.txt” 已被修改，是否保存？
+PASS | T16 关闭时选“取消”窗口保留
+PASS | T16 取消关闭后仍为修改状态
+INFO | 提示框 提示 -> 不保存(&D)：“a.txt” 已被修改，是否保存？
+PASS | T17 选“不保存”后窗口关闭
+PASS | T18 第二个窗口已修改
+INFO | 提示框 保存失败 -> Ok：无法写入文件： C:\Users\hwlfj\Documents\deepseek-harness\default-workspace\lab2editor_tests\build\debug\selftest_tmp\no_such_dir\x.txt  系统找不到指定的路径。
+PASS | T18 写入失败时返回 false
+PASS | T18 写失败后修改标记保留
+INFO | 提示框 提示 -> 不保存(&D)：“新建文本文件” 已被修改，是否保存？
+PASS | T19 行号区宽度为正
+PASS | T19 关闭后行号区宽度为 0
+PASS | T19 重新打开后宽度恢复
+---- 结果：通过 55 项，失败 0 项 ----
