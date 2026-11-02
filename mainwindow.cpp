@@ -56,10 +56,10 @@ QIcon glyphIcon(const QString &glyph)
 // 单文件大小上限，防止误开超大文件把界面卡死
 const qint64 kMaxFileSize = 20LL * 1024 * 1024;
 
-// ↓↓↓ 请把下面三项改成自己的信息（“关于”对话框会显示）↓↓↓
-const QString kAuthorName = QStringLiteral("（请填写姓名）");
-const QString kAuthorId = QStringLiteral("（请填写学号）");
-const QString kAuthorEmail = QStringLiteral("（请填写邮箱）");
+// 作者信息（“关于”对话框显示）
+const QString kAuthorName = QStringLiteral("林福佳");
+const QString kAuthorId = QStringLiteral("2024414300110");
+const QString kAuthorEmail = QStringLiteral("2749849788@qq.com");
 
 } // namespace
 

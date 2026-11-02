@@ -1,5 +1,21 @@
 # 实验2 视频演示清单 与 Git 提交说明
 
+> **当前状态（2026-10-26 21:45 更新）**：4 次提交已完成，工作区干净，`origin` 已指向
+> `https://github.com/linfj666/lab2editor.git`，尚未推送成功（校园网连不上 GitHub 443，见文末"网络问题"）。
+>
+> | # | 哈希 | 提交信息 | 涉及文件 |
+> |---|---|---|---|
+> | 1 | `261c075` | chore: 初始化 lab2 工程骨架与 .gitignore | .gitignore / .pro / main.cpp / mainwindow.h / mainwindow.ui |
+> | 2 | `59c8dbf` | feat: 实现文本编辑器（文件读写/编辑动作/格式/查找替换/行号） | mainwindow.cpp / codeeditor.* / finddialog.* / replacedialog.* / README.md |
+> | 3 | `27a8508` | docs: 补充测试报告、界面截图与视频/Git 提交清单 | screenshots/ 11 张 + 测试报告.txt + 本文档 |
+> | 4 | `d381215` | chore: 添加 .gitattributes 统一文本文件换行 | .gitattributes |
+>
+> 下面的第三节是"从零重演一遍"的参考流程，其中第 3、4 次提交已按实际结果调整过；
+> 若与实际历史有出入，**以本表为准**。
+> 之后若再新增提交（例如把作者信息、更新后的截图入库），报告第五节会自动读取真实 `git log`，
+> 只需重新生成一次报告即可，不需要手工改哈希或贴图。
+
+
 配套工程：`D:\大学课程\大三上\Qt\lab2\lab2editor\`
 配套报告：`D:\大学课程\大三上\Qt\lab2\实验2-简单文本编辑器_2026秋-已完成.docx`
 
@@ -90,22 +106,22 @@ git add mainwindow.cpp codeeditor.h codeeditor.cpp `
 git commit -m "feat: 实现文本编辑器（文件读写/编辑动作/格式/查找替换/行号）"
 ```
 
-### 第 3 次提交：边界修复
+### 第 3 次提交：文档与截图
 
-> 这一步是"改过 bug"的证据，正是报告第三部分写的那几个问题。
-> 如果你只想留一次修复提交，就把下面三处改动合并成一次提交。
+> 实际情况：代码的几处修复（查找回绕、全部替换死循环、段落分隔符、提示框中文按钮）已经包含在第 2 次提交里，
+> 所以这一次只提交文档与截图，用 `docs:` 前缀。
 
 ```powershell
-# 确认工作区是干净的；若要重演修复过程，可先改回有问题的写法再提交修复
-git add -A
-git commit -m "fix: 修复查找回绕、全部替换死循环、搜索框段落分隔符与提示框中文按钮" --allow-empty
+git add screenshots 测试报告.txt 视频演示与Git提交清单.md
+git commit -m "docs: 补充测试报告、界面截图与视频/Git 提交清单"
 ```
 
-### 第 4 次提交：文档与截图
+### 第 4 次提交：统一换行（已执行）
 
 ```powershell
-git add screenshots 测试报告.txt
-git commit -m "docs: 补充 README、自动化测试报告与界面截图"
+"* text=auto eol=lf" | Set-Content -Encoding ascii .gitattributes
+git add .gitattributes
+git commit -m "chore: 添加 .gitattributes 统一文本文件换行"
 ```
 
 ### 推送到 GitHub
@@ -130,10 +146,56 @@ git ls-files | Select-String 'build'   # 应无输出（构建产物没入库）
 
 | 位置 | 内容 | 说明 |
 |---|---|---|
-| 表格第 1 行 | 姓名 / 学号 / 班级 | 报告里目前是"（待填写）" |
-| 表格第 2 行 | 实验地点 | 目前是"（待填写）" |
-| 表格第 2 行 | 实验日期 / 指导老师 | 已填 2026 年 10 月 26 日 / 刘文果，不对就改 |
-| `screenshots\05_关于对话框.png` | 姓名 / 学号 / 邮箱 | 改 `mainwindow.cpp` 顶部三个常量后重新编译，再截一次图替换 |
-| 报告第五部分 | `git log` 截图 | 跑完上面的提交步骤后截一张贴进去 |
+| 表格第 1 行 | 姓名 / 学号 / 班级 | **已填写**：林福佳 / 2024414300110 / 24软卓一班 |
+| 表格第 2 行 | 实验地点 / 日期 / 指导老师 | **已填写**：8b302 / 2026 年 10 月 26 日 / 刘文果 |
+| `screenshots\05_关于对话框.png` | 姓名 / 学号 / 邮箱 | 已改为真实信息并重新生成 |
+| 报告第五部分 | `git log` 列表 | 自动读取真实提交历史（文本形式），无需手工贴图 |
 
 改完个人信息后重新生成截图的方法（可选）：在 Qt Creator 里跑起程序 → 帮助→关于 → 用 Win+Shift+S 截图 → 覆盖 `screenshots\05_关于对话框.png` 即可。
+
+---
+
+## 五、网络问题：GitHub 连不上怎么办
+
+现象：
+
+```
+fatal: unable to access 'https://github.com/...': Failed to connect to github.com port 443 after 21109 ms
+```
+
+说明是网络层不通（不是权限、不是仓库不存在）。按顺序试：
+
+1. **开代理再推**（最干净）
+   ```powershell
+   # 先启动代理软件并开启系统代理/TUN，确认端口（Clash Verge 通常 7897，Clash for Windows 7890）
+   git config --global http.https://github.com.proxy http://127.0.0.1:7897
+   git ls-remote https://github.com/linfj666/lab2editor.git    # 能列出 refs 就通了
+   git push -u origin main
+   # 用完想撤掉：
+   git config --global --unset http.https://github.com.proxy
+   ```
+
+2. **试 SSH 的 443 端口**（HTTPS 被拦但 SSH 主机可能能通）
+   ```powershell
+   ssh -T -p 443 git@ssh.github.com
+   ```
+
+3. **Gitee 保底**（不需要代理，今天就能交；历史完全一样）
+   ```powershell
+   # 到 gitee.com 建空仓库 lab2editor
+   git remote add gitee https://gitee.com/账号/lab2editor.git
+   git push -u gitee main
+   # 网络恢复后再补推 GitHub，哈希不变：
+   git push origin main
+   ```
+
+4. **完全离线转移**（兜底）
+   ```powershell
+   git bundle create ..\lab2editor.bundle --all
+   # 拷到有网的电脑：git clone lab2editor.bundle → 设 remote → push
+   ```
+
+**不要做**：`git config --global http.sslVerify false`（关证书校验）、把 remote 改成第三方加速镜像（token 会经过陌生服务器）、反复重试（每次卡 21 秒）。
+
+**不影响交作业的部分**：3～4 条提交、`git log` 截图、报告的 Git 一节都已就绪，只有"网页 Commits 截图"和"仓库链接"依赖网络。
+
